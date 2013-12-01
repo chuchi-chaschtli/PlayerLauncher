@@ -1,0 +1,55 @@
+name: PlayerLauncher
+main: io.GitHub.AoHRuthless.PlayerLauncher
+version: 1.4.1
+description: Launch your players into the air!
+website: http://dev.bukkit.org/bukkit-plugins/playerlauncher/
+author: AoH_Ruthless
+permissions:
+    PlayerLauncher.launch.explosion: 
+        description: Allows players to launch with an explosion. 
+        default: false
+    PlayerLauncher.launch: 
+        description: Allow players to launch themselves.
+        default: true
+    PlayerLauncher.version:    
+        description: Allow players to check the plugin information.
+        default: true
+    PlayerLauncher.launch.others: 
+        description: Allows players to launch others. 
+        default: false
+    PlayerLauncher.bypass: 
+        description: Allows players to bypass the launch block required. 
+        default: false
+    PlayerLauncher.config.reload: 
+        description: Allows a player to Reload PlayerLauncher. 
+        default: false
+    PlayerLauncher.config.save: 
+        description: Save the configuration file. 
+        default: false
+    PlayerLauncher.help: 
+        description: Allows players to list PlayerLauncher commands. 
+        default: true
+    PlayerLauncher.launch.pad: 
+        description: Allows players to launch off a defined block. 
+        default: false
+    PlayerLauncher.delay.set: 
+        description: Allows players to set the launch delay. 
+        default: false
+    PlayerLauncher.item.set: 
+        description: Allows players to set the launch item. 
+        default: false
+    PlayerLauncher.admin: 
+        description: Gives access to all above PlayerLauncher permissions. 
+        default: false
+        children:
+            PlayerLauncher.launch.explosion: true
+            PlayerLauncher.launch: true
+            PlayerLauncher.version: true
+            PlayerLauncher.launch.others: true
+            PlayerLauncher.bypass: true
+            PlayerLauncher.config.reload: true
+            PlayerLauncher.config.save: true
+            PlayerLauncher.help: true
+            PlayerLauncher.launch.pad: true
+            PlayerLauncher.delay.set: true
+            PlayerLauncher.item.set: true
