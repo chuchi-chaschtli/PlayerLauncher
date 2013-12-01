@@ -1,0 +1,20 @@
+# PlayerLauncher v1.4.1
+# View a sample configuration file, and how to setup and edit your config efficiently
+# at https://github.com/AoHRuthless/PlayerLauncher/wiki/Config.yml
+# PlayerLauncher can be downloaded at http://dev.bukkit.org/bukkit-plugins/playerlauncher/
+
+Launch:
+  Enabled: true
+  Prefix: '&1[&9PlayerLauncher&1] '
+  Message: '&dYou have been launched. Sayonara!'
+  Requirement:
+    Amount: 1
+    Item: diamond
+  Remove-Required-Items-After-Launch: true
+  Delay: 5
+  Power: 8
+  Launch-Pad: Sponge
+  Explosions:
+    Enabled: true
+    Amount: 5
+    Power: 4
