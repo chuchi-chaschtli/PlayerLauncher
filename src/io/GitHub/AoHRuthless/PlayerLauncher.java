@@ -21,6 +21,7 @@ package io.GitHub.AoHRuthless;
 import io.GitHub.AoHRuthless.metrics.MetricsLite;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -90,7 +91,7 @@ public class PlayerLauncher extends JavaPlugin {
 		    MetricsLite metrics = new MetricsLite(this);
 		    metrics.start();
 		} catch (IOException e) {
-		    //McStats failed ...
+		   Logger.getLogger("[PlayerLauncher]").log(Level.WARNING, "Why you opt-out from metrics :(");
 		}
 	}
 	
