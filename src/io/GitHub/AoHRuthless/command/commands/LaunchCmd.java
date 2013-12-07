@@ -21,7 +21,7 @@ public class LaunchCmd implements CommandInterface
 			if(!s.getLocation().getBlock().isLiquid()) {
 				if(!s.hasPermission("PlayerLauncher.bypass")) {
 					if(Frameworks.hasItems(s)) { 
-						s.sendMessage(PlayerLauncher.prefix + ChatColor.GOLD + "Launching ...");
+						s.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
 						Bukkit.getScheduler().scheduleSyncDelayedTask(PlayerLauncher.plugin, new Runnable() {
 							@Override
 							public void run() {
@@ -32,7 +32,7 @@ public class LaunchCmd implements CommandInterface
 						return true;
 					}
 				} else {
-					s.sendMessage(PlayerLauncher.prefix + ChatColor.GOLD + "Launching ...");
+					s.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
 					Frameworks.launchPlayer(s);
 					return true;
 				}

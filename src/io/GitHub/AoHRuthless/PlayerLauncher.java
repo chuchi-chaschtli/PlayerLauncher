@@ -19,10 +19,7 @@
 package io.GitHub.AoHRuthless;
 
 import io.GitHub.AoHRuthless.command.CommandHandler;
-import io.GitHub.AoHRuthless.command.commands.ExplosiveLaunchCmd;
-import io.GitHub.AoHRuthless.command.commands.HelpCmd;
-import io.GitHub.AoHRuthless.command.commands.LaunchCmd;
-import io.GitHub.AoHRuthless.command.commands.VersionCmd;
+import io.GitHub.AoHRuthless.command.commands.*;
 import io.GitHub.AoHRuthless.metrics.MetricsLite;
 
 import java.io.IOException;
@@ -40,46 +37,6 @@ public class PlayerLauncher extends JavaPlugin {
 	public static String noperms;
 	public static String invalidargs;
 	
-	/**
-	 * Input will be used later in setting the launch item.
-	 * @param s
-	 */
-	public boolean input(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }	
-	
-	/**
-	 * This will be called with the command to set the launch delay.
-	 * @param i
-	 */
-	public void setDelay(int i) {
-		getConfig().set("Launch.Delay", i);
-		saveConfig();
-	}
-	
-	/**
-	 * Will be called in setting Launch Item.
-	 * @param i
-	 */
-	public void setAmount(int i) {
-		getConfig().set("Launch.Requirement.Amount", i);
-		saveConfig();
-	}
-	
-	 /**
-	  * Will be called with the in-game command to set the launch item.
-	  * @param string
-	  */
-	public void setItem(String string) {
-		getConfig().set("Launch.Requirement.Item", string);
-		saveConfig();
-	}
-	
 	public void registerListeners() {
 		this.getServer().getPluginManager().registerEvents(new LauncherListener(this), this);
 	}
@@ -90,7 +47,19 @@ public class PlayerLauncher extends JavaPlugin {
 		handler.register("help", new HelpCmd());
 		handler.register("version", new VersionCmd(this));
 		handler.register("boom", new ExplosiveLaunchCmd(this));
-		getCommand("launch").setExecutor(new CommandHandler());
+		handler.register("config", new ConfigCmd(this));
+		handler.register("delay", new SetDelayCmd(this));
+		handler.register("item", new SetItemCmd(this));
+		handler.register("player", new LaunchOthersCmd());
+		getCommand("launch").setExecutor(handler);
+	}
+	
+	public void registerCommandAliases() {
+		CommandHandler handler = new CommandHandler();
+		getCommand("launch").setExecutor(handler);
+		handler.register("p", new LaunchOthersCmd());
+		handler.register("v", new VersionCmd(this));
+		handler.register("e", new ExplosiveLaunchCmd(this));
 	}
 	
 	public void defineVariables() {
@@ -98,7 +67,7 @@ public class PlayerLauncher extends JavaPlugin {
 		noperms = ChatColor.DARK_RED + "You do not have permission to use this command.";
 		invalidargs = "Invalid arguments. Use /l help for a list of commands.";
 		c = this.getConfig();
-		prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + " ";
+		prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " ";
 	}
 	
 	public void startMetrics() {
@@ -114,6 +83,7 @@ public class PlayerLauncher extends JavaPlugin {
 	public void onEnable() {
 		this.defineVariables();
 		this.registerCommands();
+		this.registerCommandAliases();
 		this.registerListeners();
 		this.saveDefaultConfig();
 		this.startMetrics();

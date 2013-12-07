@@ -7,6 +7,31 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class Frameworks {
+	
+	public static boolean input(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }	
+	
+	public static void setDelay(int i) {
+		PlayerLauncher.c.set("Launch.Delay", i);
+		PlayerLauncher.plugin.saveConfig();
+	}
+
+	public static void setAmount(int i) {
+		PlayerLauncher.c.set("Launch.Requirement.Amount", i);
+		PlayerLauncher.plugin.saveConfig();
+	}
+	
+
+	public static void setItem(String string) {
+		PlayerLauncher.c.set("Launch.Requirement.Item", string);
+		PlayerLauncher.plugin.saveConfig();
+	}
 
 	public static void launchPlayer(Player p) {
 		p.setVelocity(new Vector(40, 10, 40));
