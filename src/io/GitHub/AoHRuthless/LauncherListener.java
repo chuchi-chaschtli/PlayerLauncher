@@ -2,7 +2,7 @@
  * PlayerLauncher Plugin built for Minecraft, Bukkit Servers
  * Copyright (C) 2013 Anand Kumar <http://dev.bukkit.org/bukkit-plugins/playerlauncher/>
  * 
- * This file, PlayerLauncher.java, is part of the plugin PlayerLauncher.
+ * This file, LauncherListener.java, is part of the plugin PlayerLauncher.
  * 
  * PlayerLauncher is a free software: You can redistribute it or modify it
  * under the terms of the GNU General Public License published by the Free

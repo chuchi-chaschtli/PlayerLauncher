@@ -1,11 +1,10 @@
-# PlayerLauncher v1.4.1
-# View a sample configuration file, and how to setup and edit your config efficiently
-# at https://github.com/AoHRuthless/PlayerLauncher/wiki/Config.yml
+# PlayerLauncher v1.4.2
+# View a sample configuration file and setup instructions at 
+# https://github.com/AoHRuthless/PlayerLauncher/wiki/Config.yml
 # PlayerLauncher can be downloaded at http://dev.bukkit.org/bukkit-plugins/playerlauncher/
 
 Launch:
   Enabled: true
-  Prefix: '&6[PlayerLauncher]'
   Message: '&dYou have been launched. Sayonara!'
   Requirement:
     Amount: 1
