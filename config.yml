@@ -5,7 +5,7 @@
 
 Launch:
   Enabled: true
-  Prefix: '&1[&9PlayerLauncher&1] '
+  Prefix: '&6[PlayerLauncher]'
   Message: '&dYou have been launched. Sayonara!'
   Requirement:
     Amount: 1

@@ -4,6 +4,10 @@ version: 1.4.1
 description: Launch your players into the air!
 website: http://dev.bukkit.org/bukkit-plugins/playerlauncher/
 author: AoH_Ruthless
+commands:
+    launch:
+        description: Launch!
+        aliases: [l]
 permissions:
     PlayerLauncher.launch.explosion: 
         description: Allows players to launch with an explosion. 
