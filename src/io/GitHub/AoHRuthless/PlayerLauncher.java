@@ -1,6 +1,6 @@
 /*
  * PlayerLauncher Plugin built for Minecraft, Bukkit Servers
- * Copyright (C) 2013 Anand Kumar
+ * Copyright (C) 2013 Anand Kumar <http://dev.bukkit.org/bukkit-plugins/playerlauncher/>
  * 
  * This file, PlayerLauncher.java, is part of the plugin PlayerLauncher.
  * 
@@ -57,6 +57,7 @@ public class PlayerLauncher extends JavaPlugin {
 	public void registerCommandAliases() {
 		CommandHandler handler = new CommandHandler();
 		getCommand("launch").setExecutor(handler);
+		handler.register("?", new HelpCmd());
 		handler.register("p", new LaunchOthersCmd());
 		handler.register("v", new VersionCmd(this));
 		handler.register("e", new ExplosiveLaunchCmd(this));
@@ -64,10 +65,10 @@ public class PlayerLauncher extends JavaPlugin {
 	
 	public void defineVariables() {
 		plugin = this;
-		noperms = ChatColor.DARK_RED + "You do not have permission to use this command.";
+		noperms = ChatColor.GOLD + "[PlayerLauncher]" + ChatColor.WHITE + " You do not have permission to use this command.";
 		invalidargs = "Invalid arguments. Use /l help for a list of commands.";
 		c = this.getConfig();
-		prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " ";
+		prefix = ChatColor.GOLD + "[PlayerLauncher]" + ChatColor.RESET + " ";
 	}
 	
 	public void startMetrics() {
