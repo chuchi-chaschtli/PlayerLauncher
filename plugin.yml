@@ -1,6 +1,6 @@
 name: PlayerLauncher
 main: io.GitHub.AoHRuthless.PlayerLauncher
-version: 1.4.2
+version: 1.4.3
 description: Launch your players into the air!
 website: http://dev.bukkit.org/bukkit-plugins/playerlauncher/
 author: AoH_Ruthless
@@ -33,6 +33,12 @@ permissions:
     PlayerLauncher.help: 
         description: Allows players to list PlayerLauncher commands. 
         default: true
+    PlayerLauncher.launch.pad.set: 
+        description: Allows players to create launch pads. 
+        default: false
+    PlayerLauncher.launch.pad.break: 
+        description: Allows players to break a launch pad. 
+        default: false
     PlayerLauncher.launch.pad: 
         description: Allows players to launch off a defined block. 
         default: false
@@ -46,6 +52,7 @@ permissions:
         description: Gives access to all above PlayerLauncher permissions. 
         default: false
         children:
+            PlayerLauncher.launch.pad: true
             PlayerLauncher.launch.explosion: true
             PlayerLauncher.launch: true
             PlayerLauncher.version: true
@@ -54,6 +61,6 @@ permissions:
             PlayerLauncher.config.reload: true
             PlayerLauncher.config.save: true
             PlayerLauncher.help: true
-            PlayerLauncher.launch.pad: true
+            PlayerLauncher.launch.pad.use: true
             PlayerLauncher.delay.set: true
             PlayerLauncher.item.set: true
