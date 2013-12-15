@@ -19,10 +19,20 @@
 package io.GitHub.AoHRuthless;
 
 import io.GitHub.AoHRuthless.command.CommandHandler;
-import io.GitHub.AoHRuthless.command.commands.*;
+import io.GitHub.AoHRuthless.command.commands.ConfigCmd;
+import io.GitHub.AoHRuthless.command.commands.ExplosiveLaunchCmd;
+import io.GitHub.AoHRuthless.command.commands.HelpCmd;
+import io.GitHub.AoHRuthless.command.commands.LaunchCmd;
+import io.GitHub.AoHRuthless.command.commands.LaunchOthersCmd;
+import io.GitHub.AoHRuthless.command.commands.SetDelayCmd;
+import io.GitHub.AoHRuthless.command.commands.SetItemCmd;
+import io.GitHub.AoHRuthless.command.commands.SetLaunchPadCmd;
+import io.GitHub.AoHRuthless.command.commands.VersionCmd;
 import io.GitHub.AoHRuthless.metrics.MetricsLite;
+import io.GitHub.AoHRuthless.utils.LaunchPadsData;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,9 +46,10 @@ public class PlayerLauncher extends JavaPlugin {
 	public static String prefix;
 	public static String noperms;
 	public static String invalidargs;
+	public static HashSet<String> launchpad = new HashSet<String>(); 
 	
 	public void registerListeners() {
-		this.getServer().getPluginManager().registerEvents(new LauncherListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new GlobalListener(), this);
 	}
 	
 	public void registerCommands() {
@@ -51,6 +62,7 @@ public class PlayerLauncher extends JavaPlugin {
 		handler.register("delay", new SetDelayCmd(this));
 		handler.register("item", new SetItemCmd(this));
 		handler.register("player", new LaunchOthersCmd());
+		handler.register("pad", new SetLaunchPadCmd());
 		getCommand("launch").setExecutor(handler);
 	}
 	
@@ -66,7 +78,7 @@ public class PlayerLauncher extends JavaPlugin {
 	public void defineVariables() {
 		plugin = this;
 		noperms = ChatColor.GOLD + "[PlayerLauncher]" + ChatColor.WHITE + " You do not have permission to use this command.";
-		invalidargs = "Invalid arguments. Use /l help for a list of commands.";
+		invalidargs = ChatColor.RESET + "Invalid arguments. Use /l help for a list of commands.";
 		c = this.getConfig();
 		prefix = ChatColor.GOLD + "[PlayerLauncher]" + ChatColor.RESET + " ";
 	}
@@ -88,11 +100,6 @@ public class PlayerLauncher extends JavaPlugin {
 		this.registerListeners();
 		this.saveDefaultConfig();
 		this.startMetrics();
-		Logger.getLogger("[PlayerLauncher]");
-	}
-	
-	@Override
-	public void onDisable() {
-		Logger.getLogger("[PlayerLauncher]");
+		LaunchPadsData.saveLaunchPads();
 	}
 }

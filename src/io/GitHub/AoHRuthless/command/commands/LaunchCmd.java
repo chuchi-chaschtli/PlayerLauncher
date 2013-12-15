@@ -17,9 +17,9 @@
  */
 package io.GitHub.AoHRuthless.command.commands;
 
-import io.GitHub.AoHRuthless.Frameworks;
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
+import io.GitHub.AoHRuthless.utils.Frameworks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

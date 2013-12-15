@@ -45,6 +45,7 @@ public class HelpCmd implements CommandInterface
 					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l item set <item> <amount> " +  ChatColor.WHITE + "Set the item that a player needs to launch.");
 					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l boom " +  ChatColor.WHITE + "Launch with an explosion.");
 					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l version " +  ChatColor.WHITE + "View the plugin information.");
+					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l pad " +  ChatColor.WHITE + "Create a new launch pad.");
 					return true;
 				} else {
 					p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " PlayerLauncher [" + PlayerLauncher.plugin.getDescription().getVersion() +"]" + ChatColor.DARK_PURPLE + " ----");
