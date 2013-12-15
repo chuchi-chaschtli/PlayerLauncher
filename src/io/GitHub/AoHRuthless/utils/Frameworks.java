@@ -15,7 +15,9 @@
  * You can view a copy of the GNU General Public License at 
  * <http://www.gnu.org/licenses/> if you have not received a copy.
  */
-package io.GitHub.AoHRuthless;
+package io.GitHub.AoHRuthless.utils;
+
+import io.GitHub.AoHRuthless.PlayerLauncher;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -50,7 +52,6 @@ public class Frameworks {
 		PlayerLauncher.plugin.saveConfig();
 	}
 	
-
 	public static void setItem(String string) {
 		PlayerLauncher.c.set("Launch.Requirement.Item", string);
 		PlayerLauncher.plugin.saveConfig();
@@ -98,5 +99,11 @@ public class Frameworks {
 			p.sendMessage(ChatColor.DARK_RED + "You do not have enough " + ChatColor.RED + "TNT" + ChatColor.DARK_RED + " to use this command.");
 			return true;
 		}
+	}
+
+	public static void silentLaunch(Player p) {
+		Vector dir = p.getLocation().getDirection();
+		p.setVelocity(dir.multiply(PlayerLauncher.c.getInt("Launch.Power")));
+		p.setFallDistance(-1000.0F);	
 	}
 }
