@@ -13,6 +13,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -22,7 +23,7 @@ public class GlobalListener implements Listener
 {
 	private HashMap<Block, Location> pads = new HashMap<Block, Location>();
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.MONITOR)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Player p = e.getPlayer();
 		Block b = e.getBlockPlaced();
@@ -48,7 +49,7 @@ public class GlobalListener implements Listener
 		}
 	}
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGH)
 	public void onPlayerMove(PlayerMoveEvent e) {
 		ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
 		Player p = e.getPlayer();
