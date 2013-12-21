@@ -15,8 +15,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class GlobalListener implements Listener 
@@ -71,6 +73,29 @@ public class GlobalListener implements Listener
 		}
 	}
 	
+	@EventHandler (priority = EventPriority.HIGH)
+	public void onPlayerInteract(PlayerInteractEvent e) {
+		if(e.getAction().equals(Action.PHYSICAL)) {
+			ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
+			Player p = e.getPlayer();
+			Block b = e.getClickedBlock();
+			if(b.getType().equals(Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad")))) {
+				Double x = b.getLocation().getX();
+				Double y = b.getLocation().getY();
+				Double z = b.getLocation().getZ();
+				if(p.hasPermission("PlayerLauncher.launch.pad")) {
+					for(String s : cs.getKeys(true)) {
+						if ((cs.getDouble(s + ".X") ==  x) &&
+								cs.getDouble(s + ".Y") ==  y &&
+								cs.getDouble(s + ".Z") ==  z) {
+							Frameworks.silentLaunch(p);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
@@ -89,6 +114,7 @@ public class GlobalListener implements Listener
 						p.sendMessage(PlayerLauncher.noperms);
 					} else {
 						e.setCancelled(false);
+						cs.set(s, null);
 						p.sendMessage(PlayerLauncher.prefix + "You have broken a launch pad.");
 					}
 				}
