@@ -1,19 +1,53 @@
-# PlayerLauncher v1.4.3
-# View a sample configuration file and setup instructions at 
+# +---------------------------------------------------------------------------------------------+ #
+#
+# Configuration file for PlayerLauncher.
+# View a sample configuration file and more detailed setup instructions at 
 # https://github.com/AoHRuthless/PlayerLauncher/wiki/Config.yml
 # PlayerLauncher can be downloaded at http://dev.bukkit.org/bukkit-plugins/playerlauncher/
-
+# Have any issues or bugs with the plugin? Report them at the following link:
+# https://github.com/AoHRuthless/PlayerLauncher/issues?state=open
+#
+# +---------------------------------------------------------------------------------------------+ #
+#
 Launch:
+#
+# Do you want launching to be enabled?
   Enabled: true
+# 
+# The message received when a player launches. You may use '&' color codes. Remember to enclose the
+# message in '' (single quotation marks) or errors will be thrown.
   Message: '&dYou have been launched. Sayonara!'
+#  
+# Do you want to enable fireworks for when a player launches themself?
+  Fireworks: true
+#  
+# When a player tries to launch themself, what items do we want them to have? Set the amount
+# to 0 to disable. The item MUST BE the item name, not an Item Id.
   Requirement:
     Amount: 1
     Item: diamond
+#   
+# Do we want to remove the required items after a player launches themself?
   Remove-Required-Items-After-Launch: true
+  
+# How many seconds passes between the time at which a player uses /l and the launch occurs?
   Delay: 5
+#
+# What is the strength of the launch? CAUTION: Advanced users only, as this can cause
+# players to be kicked for flying, lag, client crashing, and more if the power is too high.
   Power: 8
-  Launch-Pad: Sponge
+#  
+# What block can a player automatically launch off of? Launch pads are stored in launchpads.yml
+  Launch-Pad: Wood_Plate
+# 
+# The following settings are related to explosions. You can enable / disable, set the amount of
+# TNT required to explosive launch, and the power of the explosion. 4 is that of default TNT.
+# The amount required does not affect the radius or power of the explosion in any way.
   Explosions:
     Enabled: true
     Amount: 5
     Power: 4
+#
+# +---------------------------------------------------------------------------------------------+ #
+# Version 1.4.4
+# You are done with configuration.    
