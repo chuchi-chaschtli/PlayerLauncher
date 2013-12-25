@@ -14,12 +14,19 @@ Launch:
 # Do you want launching to be enabled?
   Enabled: true
 # 
+# The prefix you want to use for most PlayerLauncher messages.
+  Prefix: '&6[PlayerLauncher]'
+#
 # The message received when a player launches. You may use '&' color codes. Remember to enclose the
 # message in '' (single quotation marks) or errors will be thrown.
   Message: '&dYou have been launched. Sayonara!'
 #  
-# Do you want to enable fireworks for when a player launches themself?
-  Fireworks: true
+# You can customize different effects when a player launches themself. Sound effects are not 
+# Case-Sensitive. You can enable fireworks or disable them as a true or false setting. Set sound 
+# to blank to disable sound effects.
+  Effects:
+    Sound: Explode
+    Fireworks: true
 #  
 # When a player tries to launch themself, what items do we want them to have? Set the amount
 # to 0 to disable. The item MUST BE the item name, not an Item Id.
@@ -48,6 +55,11 @@ Launch:
     Amount: 5
     Power: 4
 #
+# Setting to true will notify all ops and players with PlayerLauncher.admin when an update for
+# PlayerLauncher is available. Enabling this does not harm your server in any way, shape, or form
+# and it's purpose is nothing but to allow updates for the plugin to be distributed quickly and
+# easily. If you have any questions about this feature pm me (AoH_Ruthless) on BukkitDev.
+  Update-Notifications: true
 # +---------------------------------------------------------------------------------------------+ #
 # Version 1.4.4
 # You are done with configuration.    

@@ -25,6 +25,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -57,13 +58,22 @@ public class Frameworks {
 		PlayerLauncher.plugin.saveConfig();
 	}
 	
+	public static void playEffects(Player p, Location loc) {
+		String effects = PlayerLauncher.plugin.getConfig().getString("Launch.Effects.Sound");
+		if(effects != null) {
+			p.playSound(loc, Sound.valueOf(effects.toUpperCase()), 1F, 1F);
+		}
+	}
+	
 	public static void fireworks(Player p, Location loc) {
-		Firework firework = p.getWorld().spawn(loc, Firework.class);
-        FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
-        data.addEffects(FireworkEffect.builder().withColor(Color.YELLOW).with(Type.BALL_LARGE).build());
-		Vector dir = p.getLocation().getDirection();
-        firework.setFireworkMeta(data);
-        firework.setVelocity(dir.multiply(PlayerLauncher.c.getInt("Launch.Power") * .35));
+		if(PlayerLauncher.plugin.getConfig().getBoolean("Launch.Effects.Fireworks", true)) {
+			Firework firework = p.getWorld().spawn(loc, Firework.class);
+			FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
+			data.addEffects(FireworkEffect.builder().withColor(Color.YELLOW).with(Type.BALL_LARGE).build());
+			Vector dir = p.getLocation().getDirection();
+			firework.setFireworkMeta(data);
+			firework.setVelocity(dir.multiply(PlayerLauncher.c.getInt("Launch.Power") * .35));
+		}
 	}
 
 	public static void launchPlayer(Player p) {

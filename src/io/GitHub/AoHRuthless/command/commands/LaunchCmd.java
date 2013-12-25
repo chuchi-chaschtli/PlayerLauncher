@@ -43,6 +43,7 @@ public class LaunchCmd implements CommandInterface
 							@Override
 							public void run() {
 								Frameworks.launchPlayer(s);
+								Frameworks.playEffects(s, s.getLocation());
 								Frameworks.fireworks(s, s.getLocation());
 							}
 						}, PlayerLauncher.c.getInt("Launch.Delay") * 20L);
@@ -52,6 +53,7 @@ public class LaunchCmd implements CommandInterface
 				} else {
 					s.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
 					Frameworks.launchPlayer(s);
+					Frameworks.playEffects(s, s.getLocation());
 					Frameworks.fireworks(s, s.getLocation());
 					return true;
 				}
