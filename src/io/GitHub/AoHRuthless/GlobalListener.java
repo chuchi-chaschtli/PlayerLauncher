@@ -6,6 +6,7 @@ import io.GitHub.AoHRuthless.utils.LaunchPadsData;
 import java.util.HashMap;
 import java.util.Random;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,6 +20,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class GlobalListener implements Listener 
@@ -120,6 +122,19 @@ public class GlobalListener implements Listener
 				}
 			}
 		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onJoin(PlayerJoinEvent e) {
+		Player p = e.getPlayer();
+		if(!p.isOp() && !p.hasPermission("PlayerLauncher.admin")) return;
+		
+		if(!PlayerLauncher.update) return;
+		
+		p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_GREEN + "+"
+				+ ChatColor.DARK_GRAY + "] " + ChatColor.DARK_GREEN + PlayerLauncher.name
+				+ " is available.");
+		p.sendMessage(ChatColor.DARK_GREEN + "Download the latest file at http://dev.bukkit.org/server-mods/playerlauncher/");
 	}
 
 }

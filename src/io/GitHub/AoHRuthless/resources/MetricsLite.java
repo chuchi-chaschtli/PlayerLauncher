@@ -1,5 +1,5 @@
 
-package io.GitHub.AoHRuthless.metrics;
+package io.GitHub.AoHRuthless.resources;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;

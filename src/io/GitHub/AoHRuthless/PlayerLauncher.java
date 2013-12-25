@@ -19,16 +19,8 @@
 package io.GitHub.AoHRuthless;
 
 import io.GitHub.AoHRuthless.command.CommandHandler;
-import io.GitHub.AoHRuthless.command.commands.ConfigCmd;
-import io.GitHub.AoHRuthless.command.commands.ExplosiveLaunchCmd;
-import io.GitHub.AoHRuthless.command.commands.HelpCmd;
-import io.GitHub.AoHRuthless.command.commands.LaunchCmd;
-import io.GitHub.AoHRuthless.command.commands.LaunchOthersCmd;
-import io.GitHub.AoHRuthless.command.commands.SetDelayCmd;
-import io.GitHub.AoHRuthless.command.commands.SetItemCmd;
-import io.GitHub.AoHRuthless.command.commands.SetLaunchPadCmd;
-import io.GitHub.AoHRuthless.command.commands.VersionCmd;
-import io.GitHub.AoHRuthless.metrics.MetricsLite;
+import io.GitHub.AoHRuthless.command.commands.*;
+import io.GitHub.AoHRuthless.resources.*;
 import io.GitHub.AoHRuthless.utils.LaunchPadsData;
 
 import java.io.IOException;
@@ -47,6 +39,12 @@ public class PlayerLauncher extends JavaPlugin {
 	public static String noperms;
 	public static String invalidargs;
 	public static HashSet<String> launchpad = new HashSet<String>(); 
+	
+	public static boolean update = false;
+	public static String name = "";
+	public static String type = "";
+	public static String version = "";
+	public static String link = "";
 	
 	public void registerListeners() {
 		this.getServer().getPluginManager().registerEvents(new GlobalListener(), this);
@@ -77,13 +75,13 @@ public class PlayerLauncher extends JavaPlugin {
 	
 	public void defineVariables() {
 		plugin = this;
-		noperms = ChatColor.GOLD + "[PlayerLauncher]" + ChatColor.WHITE + " You do not have permission to use this command.";
+		noperms = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " You do not have permission to use this command.";
 		invalidargs = ChatColor.RESET + "Invalid arguments. Use /l help for a list of commands.";
 		c = this.getConfig();
-		prefix = ChatColor.GOLD + "[PlayerLauncher]" + ChatColor.RESET + " ";
+		prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " ";
 	}
 	
-	public void startMetrics() {
+	private void startMetrics() {
 		try {
 		    MetricsLite metrics = new MetricsLite(this);
 		    metrics.start();
@@ -92,14 +90,28 @@ public class PlayerLauncher extends JavaPlugin {
 		}
 	}
 	
+	private void updateCheck() {
+		if(getConfig().getBoolean("Launch.Update-Notifications", true)) {
+			Updater updater = new Updater(this, 63724, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
+			update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE; 
+			name = updater.getLatestName(); 
+			version = updater.getLatestGameVersion();
+			type = updater.getLatestType();
+			link = updater.getLatestFileLink();
+		} else {
+			Logger.getLogger("[PlayerLauncher]").log(Level.WARNING, "Why you no like being notified about updates?! :(");
+		}
+	}
+	
 	@Override
 	public void onEnable() {
 		this.defineVariables();
 		this.registerCommands();
 		this.registerCommandAliases();
-		this.registerListeners();
 		this.saveDefaultConfig();
 		this.startMetrics();
+		this.updateCheck();
+		this.registerListeners();
 		LaunchPadsData.saveLaunchPads();
 	}
 }
