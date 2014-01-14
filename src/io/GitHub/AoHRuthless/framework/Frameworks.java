@@ -15,7 +15,7 @@
  * You can view a copy of the GNU General Public License at 
  * <http://www.gnu.org/licenses/> if you have not received a copy.
  */
-package io.GitHub.AoHRuthless.utils;
+package io.GitHub.AoHRuthless.framework;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 
