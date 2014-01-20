@@ -1,7 +1,6 @@
 package io.GitHub.AoHRuthless;
 
-import io.GitHub.AoHRuthless.utils.Frameworks;
-import io.GitHub.AoHRuthless.utils.LaunchPadsData;
+import io.GitHub.AoHRuthless.framework.*;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -26,13 +25,18 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class GlobalListener implements Listener 
 {
 	private HashMap<Block, Location> pads = new HashMap<Block, Location>();
+	private PlayerLauncher plugin;
 	
-	@EventHandler (priority = EventPriority.MONITOR)
+	public GlobalListener(PlayerLauncher plugin) {
+		this.plugin		= plugin;
+	}
+	
+	@EventHandler (priority = EventPriority.HIGH)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Player p = e.getPlayer();
 		Block b = e.getBlockPlaced();
 		String name = p.getName();
-		if(PlayerLauncher.launchpad.contains(name)) {
+		if(plugin.launchpad.contains(name)) {
 			if(b.getType() == Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))) {
 				Location loc = b.getLocation();
 				Double x = loc.getX();
@@ -47,7 +51,7 @@ public class GlobalListener implements Listener
 				LaunchPadsData.getLaunchPads().set(path + "Z", z);
 				LaunchPadsData.saveLaunchPads();
 				pads.put(b, loc);
-				PlayerLauncher.launchpad.remove(name);
+				plugin.launchpad.remove(name);
 				p.sendMessage(PlayerLauncher.prefix + "You have set a new launch pad at this location!");
 			}
 		}
@@ -81,7 +85,7 @@ public class GlobalListener implements Listener
 			ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
 			Player p = e.getPlayer();
 			Block b = e.getClickedBlock();
-			if(b.getType().equals(Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad")))) {
+			if(b.getType() == Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))) {
 				Double x = b.getLocation().getX();
 				Double y = b.getLocation().getY();
 				Double z = b.getLocation().getZ();
@@ -124,7 +128,7 @@ public class GlobalListener implements Listener
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		if(!p.isOp() && !p.hasPermission("PlayerLauncher.admin")) return;
