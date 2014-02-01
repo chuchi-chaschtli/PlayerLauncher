@@ -28,6 +28,9 @@ import org.bukkit.entity.Player;
 
 public class HelpCmd implements CommandInterface 
 {
+	private void msg(Player p, String command, String description) {
+		p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + command + " " + ChatColor.RESET + description);
+	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
@@ -37,21 +40,21 @@ public class HelpCmd implements CommandInterface
 			if(p.hasPermission("PlayerLauncher.help")) {
 				if(p.hasPermission("PlayerLauncher.admin")) {
 					p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " PlayerLauncher [" + PlayerLauncher.plugin.getDescription().getVersion() + "]" + ChatColor.DARK_PURPLE + " ----");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l help " +  ChatColor.WHITE + "View all PlayerLauncher commands.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l " +  ChatColor.WHITE + "Launch yourself in a chosen direction.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l p <playername> " +  ChatColor.WHITE + "Launch another player in a given direction.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l config <save|reload> " +  ChatColor.WHITE + "Save or Reload the configuration file.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l delay set <seconds> " +  ChatColor.WHITE + "Set the delay to launch a player.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l item set <item> <amount> " +  ChatColor.WHITE + "Set the item that a player needs to launch.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l boom " +  ChatColor.WHITE + "Launch with an explosion.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l version " +  ChatColor.WHITE + "View the plugin information.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l pad " +  ChatColor.WHITE + "Create a new launch pad.");
+					msg(p, "/l help", "View all PlayerLauncher commands.");
+					msg(p, "/l", "Launch yourself in a chosen direction.");
+					msg(p, "/l p <player>", "Launch another player in a given direction.");
+					msg(p, "/l config <save|reload>", "Save or reload the configuration.");
+					msg(p, "/l delay set <seconds>", "Set the delay to launch a player.");
+					msg(p, "/l item set <item> <amount>", "Set the item that a player needs to launch.");
+					msg(p, "/l boom", "Launch with an explosion.");
+					msg(p, "/l version", "View the plugin information.");
+					msg(p, "/l pad", "Create a new launch pad.");
 					return true;
 				} else {
 					p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " PlayerLauncher [" + PlayerLauncher.plugin.getDescription().getVersion() +"]" + ChatColor.DARK_PURPLE + " ----");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l help " +  ChatColor.WHITE + "View the PlayerLauncher commands.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l " +  ChatColor.WHITE + "Launch yourself in a chosen direction.");
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "/l version "+ ChatColor.WHITE + "View the plugin information.");
+					msg(p, "/l help", "View all PlayerLauncher commands.");
+					msg(p, "/l", "Launch yourself in a chosen direction.");
+					msg(p, "/l version", "View the plugin information.");
 					return true;
 				}
 			} else {

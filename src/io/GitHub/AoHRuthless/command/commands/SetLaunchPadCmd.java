@@ -19,7 +19,6 @@ package io.GitHub.AoHRuthless.command.commands;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
-import io.GitHub.AoHRuthless.command.Commands;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -33,22 +32,23 @@ public class SetLaunchPadCmd implements CommandInterface
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
-		if(!Commands.isPlayer(sender)) return false;
-
+		
 		if(args.length != 1) { 
 			sender.sendMessage(PlayerLauncher.prefix + PlayerLauncher.invalidargs);
-		} else {
+			return false;
+		}
 
-			Player p = (Player) sender;
-			if(!p.hasPermission("PlayerLauncher.launch.pad.set")) {
-				p.sendMessage(PlayerLauncher.noperms);
-			} else {
-				if(args[0].equalsIgnoreCase("pad")) {
-					p.setItemInHand(new ItemStack(Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))));
-					p.sendMessage(PlayerLauncher.prefix + "Place this block to create a new launch pad.");
-					PlayerLauncher.launchpad.add(p.getName());
-					return true;
-				}
+		Player p = (Player) sender;
+		if(!p.hasPermission("PlayerLauncher.launch.pad.set")) {
+			p.sendMessage(PlayerLauncher.noperms);
+			return true;
+			
+		} else {
+			if(args[0].equalsIgnoreCase("pad")) {
+				p.setItemInHand(new ItemStack(Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))));
+				p.sendMessage(PlayerLauncher.prefix + "Place this block to create a new launch pad.");
+				PlayerLauncher.plugin.launchpad.add(p.getName());
+				return true;
 			}
 		}
 		return false;

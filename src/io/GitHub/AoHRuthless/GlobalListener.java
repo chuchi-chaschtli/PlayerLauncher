@@ -60,12 +60,15 @@ public class GlobalListener implements Listener
 	@EventHandler (priority = EventPriority.HIGH)
 	public void onPlayerMove(PlayerMoveEvent e) {
 		ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
+		if (cs == null) return;
+		
 		Player p = e.getPlayer();
 		Location loc = p.getLocation();
 		Block ground = loc.getBlock().getRelative(BlockFace.DOWN);
 		Double x = ground.getLocation().getX();
 		Double y = ground.getLocation().getY();
 		Double z = ground.getLocation().getZ();
+		
 		if(ground.getType() == Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))) {
 			if(p.hasPermission("PlayerLauncher.launch.pad")) {
 				for(String s : cs.getKeys(true)) {
@@ -83,12 +86,15 @@ public class GlobalListener implements Listener
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		if(e.getAction().equals(Action.PHYSICAL)) {
 			ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
+			if (cs == null) return;
+			
 			Player p = e.getPlayer();
 			Block b = e.getClickedBlock();
 			if(b.getType() == Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))) {
 				Double x = b.getLocation().getX();
 				Double y = b.getLocation().getY();
 				Double z = b.getLocation().getZ();
+				
 				if(p.hasPermission("PlayerLauncher.launch.pad")) {
 					for(String s : cs.getKeys(true)) {
 						if ((cs.getDouble(s + ".X") ==  x) &&
@@ -105,11 +111,14 @@ public class GlobalListener implements Listener
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		ConfigurationSection cs = LaunchPadsData.getLaunchPads().getConfigurationSection("Pads");
+		if (cs == null) return;
+		
 		Player p = e.getPlayer();
 		Block b = e.getBlock();
 		Double x = b.getLocation().getX();
 		Double y = b.getLocation().getY();
 		Double z = b.getLocation().getZ();
+		
 		if(b.getType() == Material.matchMaterial(PlayerLauncher.plugin.getConfig().getString("Launch.Launch-Pad"))) {
 			for(String s : cs.getKeys(true)) {
 				if ((cs.getDouble(s + ".X") ==  x) &&

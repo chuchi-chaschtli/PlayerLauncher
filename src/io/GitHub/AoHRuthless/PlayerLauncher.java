@@ -20,8 +20,8 @@ package io.GitHub.AoHRuthless;
 
 import io.GitHub.AoHRuthless.command.CommandHandler;
 import io.GitHub.AoHRuthless.command.commands.*;
+import io.GitHub.AoHRuthless.framework.LaunchPadsData;
 import io.GitHub.AoHRuthless.resources.*;
-import io.GitHub.AoHRuthless.utils.LaunchPadsData;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -38,7 +38,7 @@ public class PlayerLauncher extends JavaPlugin {
 	public static String prefix;
 	public static String noperms;
 	public static String invalidargs;
-	public static HashSet<String> launchpad = new HashSet<String>(); 
+	public HashSet<String> launchpad = new HashSet<String>(); 
 	
 	public static boolean update = false;
 	public static String name = "";
@@ -47,7 +47,7 @@ public class PlayerLauncher extends JavaPlugin {
 	public static String link = "";
 	
 	public void registerListeners() {
-		this.getServer().getPluginManager().registerEvents(new GlobalListener(), this);
+		this.getServer().getPluginManager().registerEvents(new GlobalListener(this), this);
 	}
 	
 	public void registerCommands() {

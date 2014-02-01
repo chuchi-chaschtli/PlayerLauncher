@@ -36,24 +36,28 @@ public class ConfigCmd implements CommandInterface
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 		Player p = (Player) sender;
-		if(args[1].equalsIgnoreCase("reload")) {
-			if(p.hasPermission("PlayerLauncher.config.reload")) {
+		
+		if (args[1].equalsIgnoreCase("reload")) {
+			if (p.hasPermission("PlayerLauncher.config.reload")) {
 				plugin.reloadConfig();
 				p.sendMessage(PlayerLauncher.prefix  + "PlayerLauncher configuration reloaded.");
 				return true;
 			}
-			if(!p.hasPermission("PlayerLauncher.config.reload")) {
+			
+			if (!p.hasPermission("PlayerLauncher.config.reload")) {
 				p.sendMessage(PlayerLauncher.noperms);
 				return true;
 			}
 		}
-		if(args[1].equalsIgnoreCase("save")) {
-			if(p.hasPermission("PlayerLauncher.config.save")) {
+		
+		if (args[1].equalsIgnoreCase("save")) {
+			if (p.hasPermission("PlayerLauncher.config.save")) {
 				plugin.saveConfig();
 				p.sendMessage(PlayerLauncher.prefix + "PlayerLauncher configuration saved.");
 				return true;
 			}
-			if(!p.hasPermission("PlayerLauncher.config.save")) {
+			
+			if (!p.hasPermission("PlayerLauncher.config.save")) {
 				p.sendMessage(PlayerLauncher.noperms);
 				return true;
 			}

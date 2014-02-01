@@ -19,7 +19,7 @@ package io.GitHub.AoHRuthless.command.commands;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
-import io.GitHub.AoHRuthless.utils.Frameworks;
+import io.GitHub.AoHRuthless.framework.Frameworks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,29 +42,30 @@ public class ExplosiveLaunchCmd implements CommandInterface
 			String commandLabel, String[] args) {
 		final FileConfiguration c = plugin.getConfig();
 		final Player p = (Player) sender;
-		if(p.hasPermission("PlayerLauncher.launch.explosion")) {
-			if(c.getBoolean("Launch.Explosions.Enabled", true)) {
-				final Location l = p.getLocation(); //Gets the sender location.
-				if(!p.hasPermission("PlayerLauncher.bypass")) { 
-					if(Frameworks.hasTNT(p)) { 
-						p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
-						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-							@Override
-							public void run() {
-								l.getBlock().getWorld().createExplosion(l, c.getInt("Launch.Explosions.Power") * 1F);
-								Frameworks.launchPlayer(p);
-							}
-						}, c.getInt("Launch.Delay") * 20L); 
-					}
-					return true;
-				} else {
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
-					l.getBlock().getWorld().createExplosion(l, c.getInt("Launch.Explosions.Power") * 1F);
-					Frameworks.launchPlayer(p);
-					return true;
-				}
-			} else {
+		
+		if (p.hasPermission("PlayerLauncher.launch.explosion")) {
+			if (c.getBoolean("Launch.Explosions.Enabled", false)) {
 				p.sendMessage(ChatColor.DARK_RED + "Sorry, this feature has been disabled.");
+				return false;
+			}
+			
+			final Location l = p.getLocation(); 
+			if (!p.hasPermission("PlayerLauncher.bypass")) { 
+				if (io.GitHub.AoHRuthless.framework.Frameworks.hasTNT(p)) { 
+					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						@Override
+						public void run() {
+							l.getBlock().getWorld().createExplosion(l, c.getInt("Launch.Explosions.Power") * 1F);
+							Frameworks.launchPlayer(p);
+						}
+					}, c.getInt("Launch.Delay") * 20L); 
+				}
+				return true;
+			} else {
+				p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Launching ...");
+				l.getBlock().getWorld().createExplosion(l, c.getInt("Launch.Explosions.Power") * 1F);
+				Frameworks.launchPlayer(p);
 				return true;
 			}
 		} else {

@@ -38,11 +38,12 @@ public class VersionCmd implements CommandInterface
 			String commandLabel, String[] args) {
 		Player p = (Player) sender;
 		if(p.hasPermission("PlayerLauncher.version")) {
+			String prefix = PlayerLauncher.prefix + ChatColor.YELLOW;
 			p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " [Plugin Information]" + ChatColor.DARK_PURPLE + " ----");
-			p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Name: " + ChatColor.WHITE + plugin.getDescription().getName());
-			p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Version: " + ChatColor.WHITE + plugin.getDescription().getVersion());
-			p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Website: " + ChatColor.WHITE + plugin.getDescription().getWebsite());
-			p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "Author: " + ChatColor.WHITE + plugin.getDescription().getAuthors());
+			p.sendMessage(prefix + "Name: " + ChatColor.WHITE + plugin.getDescription().getName());
+			p.sendMessage(prefix + "Version: " + ChatColor.WHITE + plugin.getDescription().getVersion());
+			p.sendMessage(prefix + "Website: " + ChatColor.WHITE + plugin.getDescription().getWebsite());
+			p.sendMessage(prefix + "Author: " + ChatColor.WHITE + plugin.getDescription().getAuthors());
 			return true;
 		} else {
 			p.sendMessage(PlayerLauncher.noperms);
