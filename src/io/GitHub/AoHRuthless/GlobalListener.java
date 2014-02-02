@@ -147,7 +147,10 @@ public class GlobalListener implements Listener
 		p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_GREEN + "+"
 				+ ChatColor.DARK_GRAY + "] " + ChatColor.DARK_GREEN + PlayerLauncher.name
 				+ " is available.");
-		p.sendMessage(ChatColor.DARK_GREEN + "Download the latest file at http://dev.bukkit.org/server-mods/playerlauncher/");
+		p.sendMessage(ChatColor.DARK_GRAY
+				+ "[" + ChatColor.DARK_GREEN + "+"
+				+ ChatColor.DARK_GRAY + "] " + ChatColor.DARK_GREEN
+				+ "Download the latest file at http://dev.bukkit.org/server-mods/playerlauncher/");
 	}
 
 }
