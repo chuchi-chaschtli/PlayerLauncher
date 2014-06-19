@@ -17,7 +17,7 @@
  */
 package io.GitHub.AoHRuthless.command;
 
-import io.GitHub.AoHRuthless.PlayerLauncher;
+import io.GitHub.AoHRuthless.framework.Launch;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -33,8 +33,8 @@ public class Commands {
 		return command.getName().equalsIgnoreCase(name);
 	}
 	
-	public static boolean isEnabled() {
-		return(PlayerLauncher.c.getBoolean("Launch.Enabled"));
+	public static boolean isEnabled(Launch l) {
+		return(l.getConfig().getBoolean("Launch.Enabled"));
 	}
 
 }

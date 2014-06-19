@@ -19,7 +19,7 @@ package io.GitHub.AoHRuthless.command.commands;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
-import io.GitHub.AoHRuthless.framework.Frameworks;
+import io.GitHub.AoHRuthless.framework.Launch;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,42 +28,33 @@ import org.bukkit.entity.Player;
 
 public class SetItemCmd implements CommandInterface
 {
-	private PlayerLauncher plugin;
-	
-	public SetItemCmd(PlayerLauncher plugin) {
-		this.plugin = plugin;
-	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String commandLabel, String[] args) {
+	public boolean execute(CommandSender sender, Command cmd,
+			Launch l, String[] args) {
 		Player p = (Player) sender;
-		 if(args.length == 4) {
-			if(args[1].equalsIgnoreCase("set")) {
-				if(p.hasPermission("PlayerLauncher.item.set")) {
-					try {
-						int input = Integer.parseInt(args[3]);
-						Frameworks.setAmount(input);
-						Frameworks.setItem(args[2].toUpperCase());
-						plugin.saveConfig();
-						plugin.reloadConfig();
-						p.sendMessage(PlayerLauncher.prefix + "You have set the launch item requirement to " + ChatColor.YELLOW + args[3] + " " + args[2].toUpperCase() + ".");
-						return true;
-					} catch (NumberFormatException e) {
-						p.sendMessage(PlayerLauncher.prefix + PlayerLauncher.invalidargs);
-						return true;
-					}
-				} else {
-					p.sendMessage(PlayerLauncher.noperms);
-					return true;
-				}
-			} else {
-				p.sendMessage(PlayerLauncher.prefix + PlayerLauncher.invalidargs);	
+		
+		if (args.length < 4 || !args[1].equalsIgnoreCase("set")) {
+			p.sendMessage(PlayerLauncher.PREFIX + PlayerLauncher.INVALIDARGS);
+			return false;
+		}
+		
+		if (p.hasPermission("PlayerLauncher.item.set")) {
+			try {
+				int input = Integer.parseInt(args[3]);
+				l.setRequiredAmount(input);
+				l.setRequiredItem(args[2].toUpperCase());
+				l.saveConfig();
+				l.reloadConfig();
+				p.sendMessage(PlayerLauncher.PREFIX + "You have set the launch item requirement to " + ChatColor.YELLOW + args[3] + " " + args[2].toUpperCase() + ".");
 				return true;
+			} catch (NumberFormatException e) {
+				p.sendMessage(PlayerLauncher.PREFIX + PlayerLauncher.INVALIDARGS);
+				return false;
 			}
 		} else {
-			p.sendMessage(PlayerLauncher.prefix + PlayerLauncher.invalidargs);
-			return true;
+			p.sendMessage(PlayerLauncher.NOPERMS);
+			return false;
 		}
 	}
 }

@@ -19,6 +19,7 @@ package io.GitHub.AoHRuthless.command.commands;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
+import io.GitHub.AoHRuthless.framework.Launch;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,18 +28,15 @@ import org.bukkit.entity.Player;
 
 public class VersionCmd implements CommandInterface
 {
-	private PlayerLauncher plugin;
-	
-	public VersionCmd(PlayerLauncher plugin) {
-		this.plugin = plugin;
-	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String commandLabel, String[] args) {
+	public boolean execute(CommandSender sender, Command cmd,
+			Launch l, String[] args) {
 		Player p = (Player) sender;
+		PlayerLauncher plugin = l.getPlugin();
+		
 		if(p.hasPermission("PlayerLauncher.version")) {
-			String prefix = PlayerLauncher.prefix + ChatColor.YELLOW;
+			String prefix = PlayerLauncher.PREFIX + ChatColor.YELLOW;
 			p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " [Plugin Information]" + ChatColor.DARK_PURPLE + " ----");
 			p.sendMessage(prefix + "Name: " + ChatColor.WHITE + plugin.getDescription().getName());
 			p.sendMessage(prefix + "Version: " + ChatColor.WHITE + plugin.getDescription().getVersion());
@@ -46,7 +44,7 @@ public class VersionCmd implements CommandInterface
 			p.sendMessage(prefix + "Author: " + ChatColor.WHITE + plugin.getDescription().getAuthors());
 			return true;
 		} else {
-			p.sendMessage(PlayerLauncher.noperms);
+			p.sendMessage(PlayerLauncher.NOPERMS);
 			return true;
 		}
 	}

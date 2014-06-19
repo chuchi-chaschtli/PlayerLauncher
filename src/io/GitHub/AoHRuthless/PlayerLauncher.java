@@ -19,66 +19,70 @@
 package io.GitHub.AoHRuthless;
 
 import io.GitHub.AoHRuthless.command.CommandHandler;
-import io.GitHub.AoHRuthless.command.commands.*;
+import io.GitHub.AoHRuthless.command.commands.ConfigCmd;
+import io.GitHub.AoHRuthless.command.commands.ExplosiveLaunchCmd;
+import io.GitHub.AoHRuthless.command.commands.HelpCmd;
+import io.GitHub.AoHRuthless.command.commands.LaunchCmd;
+import io.GitHub.AoHRuthless.command.commands.LaunchOthersCmd;
+import io.GitHub.AoHRuthless.command.commands.SetDelayCmd;
+import io.GitHub.AoHRuthless.command.commands.SetItemCmd;
+import io.GitHub.AoHRuthless.command.commands.SetLaunchPadCmd;
+import io.GitHub.AoHRuthless.command.commands.VersionCmd;
+import io.GitHub.AoHRuthless.framework.Launch;
 import io.GitHub.AoHRuthless.framework.LaunchPadsData;
-import io.GitHub.AoHRuthless.resources.*;
+import io.GitHub.AoHRuthless.resources.MetricsLite;
+import io.GitHub.AoHRuthless.resources.Updater;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerLauncher extends JavaPlugin {
-	public static PlayerLauncher plugin;
-	public static FileConfiguration c;
-	public static String prefix;
-	public static String noperms;
-	public static String invalidargs;
-	public HashSet<String> launchpad = new HashSet<String>(); 
+	public static String PREFIX, NOPERMS, INVALIDARGS;
+	private Set<String> launchpad = new HashSet<String>(); 
 	
 	public static boolean update = false;
 	public static String name = "";
-	public static String type = "";
-	public static String version = "";
-	public static String link = "";
 	
-	public void registerListeners() {
+	private CommandHandler handler;
+	private Launch launch;
+	
+	private void registerListeners() {
 		this.getServer().getPluginManager().registerEvents(new GlobalListener(this), this);
 	}
 	
-	public void registerCommands() {
-		CommandHandler handler = new CommandHandler();
+	private void registerCommands() {
 		handler.register("launch", new LaunchCmd());
 		handler.register("help", new HelpCmd());
-		handler.register("version", new VersionCmd(this));
-		handler.register("boom", new ExplosiveLaunchCmd(this));
-		handler.register("config", new ConfigCmd(this));
-		handler.register("delay", new SetDelayCmd(this));
-		handler.register("item", new SetItemCmd(this));
+		handler.register("version", new VersionCmd());
+		handler.register("boom", new ExplosiveLaunchCmd());
+		handler.register("config", new ConfigCmd());
+		handler.register("delay", new SetDelayCmd());
+		handler.register("item", new SetItemCmd());
 		handler.register("player", new LaunchOthersCmd());
 		handler.register("pad", new SetLaunchPadCmd());
 		getCommand("launch").setExecutor(handler);
 	}
 	
-	public void registerCommandAliases() {
-		CommandHandler handler = new CommandHandler();
-		getCommand("launch").setExecutor(handler);
+	private void registerCommandAliases() {
 		handler.register("?", new HelpCmd());
 		handler.register("p", new LaunchOthersCmd());
-		handler.register("v", new VersionCmd(this));
-		handler.register("e", new ExplosiveLaunchCmd(this));
+		handler.register("v", new VersionCmd());
+		handler.register("e", new ExplosiveLaunchCmd());
 	}
 	
-	public void defineVariables() {
-		plugin = this;
-		noperms = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " You do not have permission to use this command.";
-		invalidargs = ChatColor.RESET + "Invalid arguments. Use /l help for a list of commands.";
-		c = this.getConfig();
-		prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " ";
+	private void defineVariables() {
+		launch = new Launch(this);
+		handler = new CommandHandler(this);
+		
+		NOPERMS = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " You do not have permission to use this command.";
+		INVALIDARGS = ChatColor.RESET + "Invalid arguments. Use /l help for a list of commands.";
+		PREFIX = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Launch.Prefix")) + ChatColor.RESET + " ";
 	}
 	
 	private void startMetrics() {
@@ -95,9 +99,6 @@ public class PlayerLauncher extends JavaPlugin {
 			Updater updater = new Updater(this, 63724, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
 			update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE; 
 			name = updater.getLatestName(); 
-			version = updater.getLatestGameVersion();
-			type = updater.getLatestType();
-			link = updater.getLatestFileLink();
 		} else {
 			Logger.getLogger("[PlayerLauncher]").log(Level.WARNING, "Why you no like being notified about updates?! :(");
 		}
@@ -112,6 +113,18 @@ public class PlayerLauncher extends JavaPlugin {
 		this.startMetrics();
 		this.updateCheck();
 		this.registerListeners();
-		LaunchPadsData.saveLaunchPads();
+		LaunchPadsData.saveLaunchPads(this);
+	}
+	
+	public Set<String> getLaunchPads() {
+		return launchpad;
+	}
+	
+	public CommandHandler getCommandHandler() {
+		return handler;
+	}
+	
+	public Launch getLaunchHandler() {
+		return launch;
 	}
 }

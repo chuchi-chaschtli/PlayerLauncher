@@ -19,7 +19,7 @@ package io.GitHub.AoHRuthless.command.commands;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
-import io.GitHub.AoHRuthless.framework.Frameworks;
+import io.GitHub.AoHRuthless.framework.Launch;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,29 +31,31 @@ public class LaunchOthersCmd implements CommandInterface
 {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String commandLabel, String[] args) {
+	public boolean execute(CommandSender sender, Command cmd,
+			Launch l, String[] args) {
+		
 		Player p = (Player) sender;
 		Player target = null;
-		if(args.length == 2) {
+		
+		if(args.length >= 2) {
 			if(p.hasPermission("PlayerLauncher.launch.others")) {
 				target = Bukkit.getServer().getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + args[1] + ChatColor.WHITE + " is offline or does not exist.");
-					return true;
+					p.sendMessage(PlayerLauncher.PREFIX + ChatColor.YELLOW + args[1] + ChatColor.RESET + " is offline or does not exist.");
+					return false;
 				} else {
-					p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + "You are now launching " + args[1] + "!");
-					Frameworks.launchPlayer(target);
-					Frameworks.fireworks(target, target.getLocation());
+					p.sendMessage(PlayerLauncher.PREFIX + ChatColor.YELLOW + "You are now launching " + args[1] + "!");
+					l.launchPlayer(target, true, true);
+					l.launchFireworksOnPlayer(target);
 					return true;
 				}
 			} else {
-				p.sendMessage(PlayerLauncher.noperms);
-				return true;
+				p.sendMessage(PlayerLauncher.NOPERMS);
+				return false;
 			}
 		} else {
-			p.sendMessage(PlayerLauncher.prefix + PlayerLauncher.invalidargs);
-			return true;
+			p.sendMessage(PlayerLauncher.PREFIX + PlayerLauncher.INVALIDARGS);
+			return false;
 		}
 	}
 

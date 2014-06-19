@@ -20,6 +20,7 @@ package io.GitHub.AoHRuthless.command.commands;
 import io.GitHub.AoHRuthless.PlayerLauncher;
 import io.GitHub.AoHRuthless.command.CommandInterface;
 import io.GitHub.AoHRuthless.command.Commands;
+import io.GitHub.AoHRuthless.framework.Launch;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,17 +30,17 @@ import org.bukkit.entity.Player;
 public class HelpCmd implements CommandInterface 
 {
 	private void msg(Player p, String command, String description) {
-		p.sendMessage(PlayerLauncher.prefix + ChatColor.YELLOW + command + " " + ChatColor.RESET + description);
+		p.sendMessage(PlayerLauncher.PREFIX + ChatColor.YELLOW + command + " " + ChatColor.RESET + description);
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd,
-			String commandLabel, String[] args) {
+	public boolean execute(CommandSender sender, Command cmd,
+			Launch l, String[] args) {
 		if(Commands.isPlayer(sender)) {
 			Player p = (Player) sender;
 			if(p.hasPermission("PlayerLauncher.help")) {
 				if(p.hasPermission("PlayerLauncher.admin")) {
-					p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " PlayerLauncher [" + PlayerLauncher.plugin.getDescription().getVersion() + "]" + ChatColor.DARK_PURPLE + " ----");
+					p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " PlayerLauncher [" + l.getPlugin().getDescription().getVersion() + "]" + ChatColor.DARK_PURPLE + " ----");
 					msg(p, "/l help", "View all PlayerLauncher commands.");
 					msg(p, "/l", "Launch yourself in a chosen direction.");
 					msg(p, "/l p <player>", "Launch another player in a given direction.");
@@ -51,15 +52,17 @@ public class HelpCmd implements CommandInterface
 					msg(p, "/l pad", "Create a new launch pad.");
 					return true;
 				} else {
-					p.sendMessage(ChatColor.DARK_PURPLE + "----" + ChatColor.GRAY + " PlayerLauncher [" + PlayerLauncher.plugin.getDescription().getVersion() +"]" + ChatColor.DARK_PURPLE + " ----");
+					p.sendMessage(ChatColor.DARK_PURPLE + "----"
+							+ ChatColor.GRAY + " PlayerLauncher ["
+							+ l.getPlugin().getDescription().getVersion() + "]"
+							+ ChatColor.DARK_PURPLE + " ----");
 					msg(p, "/l help", "View all PlayerLauncher commands.");
 					msg(p, "/l", "Launch yourself in a chosen direction.");
 					msg(p, "/l version", "View the plugin information.");
 					return true;
 				}
 			} else {
-				p.sendMessage(PlayerLauncher.noperms);
-				return true;
+				p.sendMessage(PlayerLauncher.NOPERMS);
 			}
 		}
 		return false;

@@ -15,42 +15,42 @@ public class LaunchPadsData
 	public static FileConfiguration launchpads; 
 	public static File launchPadsFile;
 	
-	public static void reloadLaunchPads() {
+	public static void reloadLaunchPads(PlayerLauncher plugin) {
 	    if (launchPadsFile == null) {
-	    launchPadsFile = new File(PlayerLauncher.plugin.getDataFolder(), "launchpads.yml");
+	    launchPadsFile = new File(plugin.getDataFolder(), "launchpads.yml");
 	    }
 	    launchpads = YamlConfiguration.loadConfiguration(launchPadsFile);
-	    InputStream defConfigStream = PlayerLauncher.plugin.getResource("launchpads.yml");
+	    InputStream defConfigStream = plugin.getResource("launchpads.yml");
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        launchpads.setDefaults(defConfig);
 	    }
 	}
 	
-	public static FileConfiguration getLaunchPads() {
+	public static FileConfiguration getLaunchPads(PlayerLauncher plugin) {
 	    if (launchpads == null) {
-	        reloadLaunchPads();
+	        reloadLaunchPads(plugin);
 	    }
 	    return launchpads;
 	}
 	
-	public static void saveLaunchPads() {
+	public static void saveLaunchPads(PlayerLauncher plugin) {
 	    if (launchpads == null || launchPadsFile == null) {
 	        return;
 	    }
 	    try {
-	        getLaunchPads().save(launchPadsFile);
+	        getLaunchPads(plugin).save(launchPadsFile);
 	    } catch (IOException ex) {
-	    	PlayerLauncher.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + launchPadsFile, ex);
+	    	plugin.getLogger().log(Level.SEVERE, "Could not save config to " + launchPadsFile, ex);
 	    }
 	}
 	
-	public void saveDefaultLaunchPads() {
+	public void saveDefaultLaunchPads(PlayerLauncher plugin) {
 		if(launchPadsFile == null) {
-			launchPadsFile = new File(PlayerLauncher.plugin.getDataFolder(), "launchpads.yml");
+			launchPadsFile = new File(plugin.getDataFolder(), "launchpads.yml");
 		}
 		if(!launchPadsFile.exists()) {
-			PlayerLauncher.plugin.saveResource("launchpads.yml", false);
+			plugin.saveResource("launchpads.yml", false);
 		}
 	}
 }

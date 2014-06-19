@@ -18,8 +18,10 @@
 package io.GitHub.AoHRuthless.command;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
+import io.GitHub.AoHRuthless.framework.Launch;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,8 +30,15 @@ import org.bukkit.command.CommandSender;
 
 public class CommandHandler implements CommandExecutor 
 {
+	private PlayerLauncher plugin;
+	private Launch launch;
+	private Map<String, CommandInterface> commands;
 	
-	private static HashMap<String, CommandInterface> commands = new HashMap<String, CommandInterface>();
+	public CommandHandler(PlayerLauncher plugin) {
+		this.plugin = plugin;
+		this.launch = plugin.getLaunchHandler();
+		this.commands = new HashMap<String, CommandInterface>();
+	}
 	
 	public void register(String name, CommandInterface cmd) {
 		commands.put(name, cmd);
@@ -45,18 +54,18 @@ public class CommandHandler implements CommandExecutor
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if(Commands.isEnabled() == true) {
+		if(Commands.isEnabled(launch)) {
 			if(Commands.isPlayer(sender)) {
 				if(args.length == 0 || args[0].equalsIgnoreCase("self")) {
-					getExecutor("launch").onCommand(sender, cmd, commandLabel, args);
+					getExecutor("launch").execute(sender, cmd, launch, args);
 					return true;
 				}
 				if(args.length > 0) {
 					if(exists(args[0])){
-						getExecutor(args[0]).onCommand(sender, cmd, commandLabel, args);
+						getExecutor(args[0]).execute(sender, cmd, launch, args);
 						return true;
 					} else {
-						sender.sendMessage(PlayerLauncher.prefix + PlayerLauncher.invalidargs);
+						sender.sendMessage(PlayerLauncher.PREFIX + PlayerLauncher.INVALIDARGS);
 						return true;
 					}
 				}
@@ -71,4 +80,11 @@ public class CommandHandler implements CommandExecutor
 		return false;
 	}
 
+	protected PlayerLauncher getPlugin() {
+		return plugin;
+	}
+	
+	protected Launch getLauncher() {
+		return launch;
+	}
 }
