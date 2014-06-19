@@ -43,8 +43,20 @@ public class Launch
 			if (Sound.valueOf(effect[i].toUpperCase()) == null) {
 				continue;
 			}
-			p.playSound(p.getLocation(),
-					Sound.valueOf(effect[i].toUpperCase()), 1F, 1F);
+			String[] effectParts = effect[i].split("-");
+			if (effectParts.length < 2) {
+				p.playSound(p.getLocation(),
+						Sound.valueOf(effect[i].toUpperCase()), 1F, 1F);
+			} else if (effectParts.length > 2) {
+				p.playSound(p.getLocation(),
+						Sound.valueOf(effectParts[0].toUpperCase()),
+						Float.parseFloat(effectParts[1]),
+						Float.parseFloat(effectParts[2]));
+			} else {
+				p.playSound(p.getLocation(),
+						Sound.valueOf(effectParts[0].toUpperCase()),
+						Float.parseFloat(effectParts[1]), 1F);
+			}
 		}
 		return true;
 	}
