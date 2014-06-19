@@ -25,7 +25,7 @@ Launch:
 # Case-Sensitive. You can enable fireworks or disable them as a true or false setting. Set sound 
 # to blank to disable sound effects.
   Effects:
-    Sound: Explode
+    Sound: Explode-30-2,Door_Open-20
     Fireworks: true
 #  
 # When a player tries to launch themself, what items do we want them to have? Set the amount

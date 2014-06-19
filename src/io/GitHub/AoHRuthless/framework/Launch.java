@@ -40,10 +40,12 @@ public class Launch
 		}
 		String[] effect = effects.split(",");
 		for (int i = 0; i < effect.length; i++) {
-			if (Sound.valueOf(effect[i].toUpperCase()) == null) {
+			String[] effectParts = effect[i].split("-");
+			
+			if (Sound.valueOf(effectParts[0].toUpperCase()) == null) {
 				continue;
 			}
-			String[] effectParts = effect[i].split("-");
+			
 			if (effectParts.length < 2) {
 				p.playSound(p.getLocation(),
 						Sound.valueOf(effect[i].toUpperCase()), 1F, 1F);
