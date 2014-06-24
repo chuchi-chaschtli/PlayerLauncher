@@ -2,8 +2,6 @@ package io.GitHub.AoHRuthless.framework;
 
 import io.GitHub.AoHRuthless.PlayerLauncher;
 
-import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -64,19 +62,27 @@ public class Launch
 	}
 
 	public boolean launchFireworksOnPlayer(Player p) {
-		if (!config.getBoolean("Launch.Effects.Firework")) {
+		String path = "Launch.Effects.Firework.";
+		if (!config.getBoolean(path + "Enabled")) {
 			return false;
 		}
 		Firework firework = p.getWorld().spawn(p.getLocation(), Firework.class);
 		FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
-		Random random = new Random();
-		Color randomRGB = Color.fromRGB(random.nextInt(256),
-				random.nextInt(256), random.nextInt(256));
-		data.addEffects(FireworkEffect.builder().withColor(randomRGB)
-				.with(Type.BALL_LARGE).build());
+		String rgb = config.getString(path + "RGB");
+		String[] rgbParts = rgb.split(",");
+		int red = Integer.parseInt(rgbParts[0]);
+		int green = Integer.parseInt(rgbParts[1]);
+		int blue = Integer.parseInt(rgbParts[2]);
+		Color fireworkColor = Color.fromRGB(red, green, blue);
+		data.addEffects(FireworkEffect
+				.builder()
+				.withColor(fireworkColor)
+				.with(Type.valueOf(config.getString(path + "Type")
+						.toUpperCase().replace("-", "_"))).build());
 		Vector dir = p.getLocation().getDirection();
 		firework.setFireworkMeta(data);
-		firework.setVelocity(dir.multiply(config.getInt("Launch.Power") * .35));
+		firework.setVelocity(dir.multiply(config.getInt("Launch.Power")
+				* config.getDouble(path + "Vector")));
 		return true;
 	}
 
